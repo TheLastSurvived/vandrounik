@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% block title %}
+{{article.title}}
+{% endblock %}
+
+
+{% block main %}
+{{ ckeditor.load() }}
+<div class="container">
+  <div class="main">
+    <ol class="breadcrumb py-3">
+      <li class="breadcrumb-item"><a href="/">Главная</a></li>
+      <li class="breadcrumb-item"><a href="/articles">Достопримечательности</a> </li>
+      <li class="breadcrumb-item active">{{article.title}}</li>
+    </ol>
+
+
+    {%if 'name' in session and active_user.root==1%}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Изменить
+    </button>
+    <a href="/delete-article/{{article.id}}" class="btn btn-danger mb-3">Удалить</a>
+    {%endif%}
+
+
+    {% with messages = get_flashed_messages(True) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <p class="m-2 flash {{category}}">{{message}}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Изменить</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="post" enctype="multipart/form-data">
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Название</label>
+                <input type="text" id="disabledTextInput" class="form-control" name="title" placeholder="Название"
+                  required value="{{article.title}}">
+              </div>
+              <div class="mb-3">
+                <label for="disabledSelect" class="form-label">Категория</label>
+                <select name="category" id="disabledSelect" class="form-select">
+                  <option value="Образовательный туризм">Образовательный туризм</option>
+                  <option value="Религиозный туризм">Религиозный туризм</option>
+                  <option value="Медицинский туризм">Медицинский туризм</option>
+                  <option value="Экологический туризм">Экологический туризм</option>
+                  <option value="Охотничий туризм">Охотничий туризм</option>
+
+                  <option value="Событийный туризм">Событийный туризм</option>
+                  <option value="Деловой туризм">Деловой туризм</option>
+                  <option value="Промышленный туризм">Промышленный туризм</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Изображение</label>
+                <input type="file" id="disabledTextInput" name="image" class="form-control" accept=".jpg,.jpeg,.png">
+              </div>
+              <div class="mb-3">
+                <h3>Содержимое</h3>
+                {{ ckeditor.create(value=article.text) }}
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary">Изменить</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
+      <div class=" px-0">
+        <h1 class="display-4 fst-italic text-center">{{article.title}}</h1>
+      </div>
+    </div>
+
+    <div class="row g-5">
+      <div class="col-md-8">
+        <img src="../static/img/upload/{{article.image_name}}" width="100%" alt="">
+
+        <article class="blog-post py-3">
+          <h3 class="pb-4 mb-4 fst-italic border-bottom">
+            <a href="/articles?subject={{article.category}}" class="link-dark">{{article.category}}</a>
+          </h3>
+          {% autoescape false %}
+          {{article.text}}
+          {% endautoescape %}
+        </article>
+      </div>
+
+      <div class="col-md-4">
+        <div class="position-sticky" style="top: 2rem;">
+
+
+          <div>
+            <h4 class="fst-italic">Другие достопримечательности</h4>
+            <ul class="list-unstyled">
+
+
+              {%for article_r in articles_random%}
+              <li>
+                <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
+                  href="/articles/{{article_r.id}}">
+                  <img src="../static/img/upload/{{article_r.image_name}}" width="40%" alt="">
+                  <div class="col-lg-8">
+                    <h6 class="mb-0">{{article_r.title}}</h6>
+                  </div>
+                </a>
+              </li>
+              {%endfor%}
+
+            </ul>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

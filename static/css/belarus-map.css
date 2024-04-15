@@ -1,0 +1,226 @@
+#first-row {
+	align-items: flex-end;
+	justify-content: space-between;
+}
+
+#first-row .baner-270x350 {
+	background-image: url(belarus-pixel-map-baner_270x350.png);
+	background-size: cover;
+	color: #aaa;
+	font-style: italic;
+	font-size: 14px;
+	line-height: 18px;
+	transition: all .5s;
+	display: flex;
+	align-items: flex-end;
+	margin-bottom: 50px;
+}
+
+#first-row .baner-270x350:hover {
+	color: #fff;
+	background-color: #28898e;
+	text-decoration: none;
+}
+
+#first-row .baner-270x350 div {
+	padding: 20px 35px 40px;
+}
+
+#belarus-map svg {
+	fill: #fff;
+}
+
+#regions {
+	stroke: #ddd;
+	stroke-width: 2;
+}
+
+#subregions {
+	stroke: #ddd;
+	stroke-width: 1.2;
+}
+
+circle {
+	fill: rgb(1, 1, 1);
+	stroke: none;
+}
+
+
+
+.tooltip {
+	position: absolute;
+	text-align: center;
+	padding: 8px 15px;
+	background: rgba(255, 255, 255, .9);
+	box-shadow: 0 5px 30px rgba(0, 0, 0, .1);
+	pointer-events: none;
+}
+
+#demo {
+	padding: 3em 3% 5em;
+
+}
+
+#belarus-map {
+	width: 550px;
+	height: 490px;
+	margin: 0 50px 0 0;
+}
+
+#belarus-map svg {
+	width: 550px;
+	height: 490px;
+}
+
+#layers-control {
+	margin-bottom: 25px;
+}
+
+#regions-switch {
+	display: inline-block;
+	background-color: #ddd;
+	margin: 5px 0 15px;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.switchButton {
+	display: inline-block;
+	color: #666;
+	padding: 6px 15px 8px;
+	cursor: pointer;
+}
+
+.switchButton.checked {
+	color: #fff;
+	background-color: #457b7e;
+	cursor: default;
+	pointer-events: none;
+}
+
+.switchButton:hover {
+	background-color: #bbb;
+}
+
+#control-group h3 {
+	margin-bottom: 5px;
+}
+
+#regions-list {
+	width: 140px;
+	float: left;
+}
+
+#subregions-list {
+	margin-left: 150px;
+}
+
+.name {
+	display: inline-block;
+	width: 140px;
+	margin: 3px 50px 5px 0;
+}
+
+.name span {
+	padding: 2px 5px 3px;
+}
+
+.highlight {
+	fill: #e14538;
+	stroke: none;
+}
+
+.highlightText span,
+.name:hover span {
+	background-color: #e14538;
+	color: white;
+}
+
+
+
+#hrodnenskaia-voblasts {
+	fill: rgb(44, 130, 130);
+}
+
+#hrodnenskaia-voblasts:hover {
+	fill: #e14538;
+}
+
+#vitsebskaia-voblasts {
+	fill: rgb(92, 92, 235);
+}
+
+#vitsebskaia-voblasts:hover {
+	fill: #e14538;
+}
+
+#mahiliouskaia-voblasts{
+fill: rgb(187, 124, 246);
+}
+
+#mahiliouskaia-voblasts:hover{
+	fill: #e14538;
+}
+
+
+#homelskaia-voblasts{
+	fill: rgb(183, 180, 13);
+}
+
+#homelskaia-voblasts:hover{
+	fill: #e14538;
+}
+
+#minskaia-voblasts{
+fill: chocolate;
+}
+
+#minskaia-voblasts:hover{
+	fill: #e14538;
+}
+
+#brestskaia-voblasts{
+	fill: cornflowerblue;
+}
+
+#brestskaia-voblasts:hover{
+	fill: #e14538;
+}
+
+
+polygon:hover,
+circle:hover {
+	fill: #e14538;
+}
+
+@media (max-width: 1200px) {
+	#first-row .baner-270x350 {
+		display: none;
+	}
+}
+
+@media (max-width: 600px) {
+
+	#belarus-map,
+	#belarus-map svg {
+		width: 440px;
+		height: 392px;
+	}
+
+	.mapScale {
+		transform: scale(0.8, 0.8);
+	}
+}
+
+@media (max-width: 500px) {
+
+	#belarus-map,
+	#belarus-map svg {
+		width: 275px;
+		height: 245px;
+	}
+
+	.mapScale {
+		transform: scale(0.5, 0.5);
+	}
+}

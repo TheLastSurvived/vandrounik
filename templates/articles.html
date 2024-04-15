@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block title %}
+Достопримечательности
+{% endblock %}
+
+
+{% block main %}
+{{ ckeditor.load() }}
+<div class="container">
+  <div class="main">
+    <ol class="breadcrumb py-3">
+      <li class="breadcrumb-item"><a href="/">Главная</a></li>
+      <li class="breadcrumb-item active">Достопримечательности</li>
+    </ol>
+    <h1 class="py-3">Достопримечательности</h1>
+
+    {%if 'name' in session and active_user.root==1%}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Добавить
+    </button>
+    {%endif%}
+
+    {% with messages = get_flashed_messages(True) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <p class="m-2 flash {{category}}">{{message}}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Добавить</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="post" enctype="multipart/form-data">
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Название</label>
+                <input type="text" id="disabledTextInput" class="form-control" name="title" placeholder="Название"
+                  required>
+              </div>
+              <div class="mb-3">
+                <label for="disabledSelect" class="form-label">Категория</label>
+                <select name="category" id="disabledSelect" class="form-select">
+                  <option value="Религиозный туризм">Религиозный туризм</option>
+                  <option value="Медицинский туризм">Медицинский туризм</option>
+                  <option value="Экологический туризм">Экологический туризм</option>
+                  <option value="Охотничий туризм">Охотничий туризм</option>
+                  <option value="Образовательный туризм">Образовательный туризм</option>
+                  
+                  <option value="Деловой туризм">Деловой туризм</option>
+                  <option value="Промышленный туризм">Промышленный туризм</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Изображение</label>
+                <input type="file" id="disabledTextInput" name="image" class="form-control" accept=".jpg,.jpeg,.png"
+                  required>
+              </div>
+              <div class="mb-3">
+                <h3>Содержимое</h3>
+                {{ ckeditor.create() }}
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary">Добавить</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <h1 class="fw-light">Категории:</h1>
+    <div class="d-flex justify-content-between align-items-center text-center">
+      <a href="/articles" class="text-decoration-none mx-3">Все</a>
+      <a href="/articles?category=Религиозный туризм" class="text-decoration-none mx-3"><i class="fa fa-fire"
+          aria-hidden="true"></i>Религиозный туризм</a>
+      <a href="/articles?category=Медицинский туризм" class="text-decoration-none mx-3"><i class="fa fa-medkit" aria-hidden="true"></i>Медицинский
+        туризм</a>
+      <a href="/articles?category=Экологический туризм" class="text-decoration-none mx-3"><i class="fa fa-leaf" aria-hidden="true"></i>Экологический
+        туризм</a>
+      <a href="/articles?category=Охотничий туризм" class="text-decoration-none mx-3"><i class="fa fa-tree" aria-hidden="true"></i>Охотничий туризм</a>
+      <a href="/articles?category=Образовательный туризм" class="text-decoration-none mx-3"><i class="fa fa-graduation-cap"
+          aria-hidden="true"></i>Образовательный туризм</a>
+      <a href="/events" class="text-decoration-none mx-3"><i class="fa fa-asterisk" aria-hidden="true"></i>Событийный
+        туризм</a>
+      <a href="/articles?category=Деловой туризм" class="text-decoration-none mx-3"><i class="fa fa-bus" aria-hidden="true"></i>Деловой туризм</a>
+      <a href="/articles?category=Промышленный туризм" class="text-decoration-none mx-3"><i class="fa fa-building" aria-hidden="true"></i>Промышленный
+        туризм</a>
+
+    </div>
+    <div class="album py-5">
+      <div class="container">
+
+        <div class="row  row-cols-sm-2  g-3">
+          
+
+          {%if articles%}
+          {%for article in articles%}
+          <div class="col" data-aos="flip-up">
+            <div class="card shadow-sm">
+              <img src="../static/img/upload/{{article.image_name}}" alt="">
+              <div class="card-body">
+                <p class="card-text">{{article.title}}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <a href="/articles/{{article.id}}" class="btn btn-outline-primary">Смотреть</a>
+                  </div>
+                  <small class="text-body-secondary">{{article.category}}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          {%endfor%}
+          {%else%}
+            <h2>Нет записей!</h2>
+          {%endif%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

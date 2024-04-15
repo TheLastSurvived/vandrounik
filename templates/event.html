@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block title %}
+{{event.title}}
+{% endblock %}
+
+
+{% block main %}
+{{ ckeditor.load() }}
+
+    <div class="container">
+        <div class="main">
+            <ol class="breadcrumb py-3">
+                <li class="breadcrumb-item"><a href="/">Главная</a></li>
+                <li class="breadcrumb-item"><a href="/events">События</a> </li>
+                <li class="breadcrumb-item active">{{event.title}}</li>
+            </ol>
+    <!-- Button trigger modal -->
+
+    {%if 'name' in session and active_user.root==1%}
+
+    <button type="button" class="btn btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Изменить
+      </button>
+      <a href="/delete-event/{{event.id}}" class="btn btn-danger mb-3">Удалить запись</a>
+      {%endif%}
+
+
+
+
+
+      {% with messages = get_flashed_messages(True) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <p class="m-2 flash {{category}}">{{message}}</p>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+  
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Изменить</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                  <label for="disabledTextInput" class="form-label">Название</label>
+                  <input type="text" id="disabledTextInput" class="form-control" name="title" placeholder="Название"
+                    required value="{{event.title}}">
+                </div>
+                <div class="mb-3">
+                    <label for="disabledTextInput" class="form-label">Место проведения</label>
+                    <input type="text" id="disabledTextInput" class="form-control" name="city" placeholder="Место проведения"
+                      required value="{{event.city}}">
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="disabledTextInput" class="form-label">Дата</label>
+                    <input type="date" id="disabledTextInput" class="form-control" name="date" placeholder="Дата"
+                      required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="disabledTextInput" class="form-label">Изображение</label>
+                    <input type="file" id="disabledTextInput" name="image" class="form-control" accept=".jpg,.jpeg,.png" >
+                  </div>
+                <div class="mb-3">
+                  <h3>Описание</h3>
+                  {{ ckeditor.create(value=event.text) }}
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+              <button type="submit" class="btn btn-primary">Изменить</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+            <div class="row py-5">
+                <div class="col-lg-4">
+                    <h1>{{event.title}}</h1>
+                    <h2>Дата: {{event.date.strftime('%d.%m.%Y')}}</h2>
+                    <h2>Город: {{event.city}}</h2>
+                    <h2>Описание события:</h2>
+                    {% autoescape false %}
+                    {{event.text}}
+                    {% endautoescape %}
+                </div>
+                <div class="col-lg-8">
+                    <img src="../static/img/upload/{{event.image_name}}" class="img-fluid" alt="">
+                </div>
+            </div>
+            
+      {%if 'name' in session and event.id not in id_list%}
+      <a href="/add-event-fav/{{event.id}}" class="btn btn-success mb-3">Добавить в избранное</a>
+      {%elif event.id in id_list%}
+      <a href="/delete-event-fav/{{event.id}}" class="btn btn-outline-danger mb-3">Удалить из избранного</a>
+      {%else%}
+      <h6>Добавить в избранное можно только авторизованным пользователям!</h6>
+      {%endif%}
+        </div>
+    </div>
+
+    {% endblock %}

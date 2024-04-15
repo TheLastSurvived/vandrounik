@@ -1,0 +1,9 @@
+.flash.ok {
+    color: #198754;
+    font-weight: bold;
+}
+
+.flash.bad {
+    color: #dc3545;
+    font-weight: bold;
+}

@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block title %}
+Vandroўnik
+{% endblock %}
+
+
+{% block main %}
+<div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="../static/img/slide1.jpg" width="" alt="">
+            <div class="container">
+                <div class="carousel-caption text-start">
+                    <h1>Познай Беларусь.</h1>
+                    <p class="opacity-75">Теперь торопиться уже некуда. Путешествуйте по Беларуси на поезде,
+                        автобусе, автомобиле, велосипеде или гуляйте пешком. В общем, наслаждайтесь отдыхом!</p>
+                    <p><a class="btn btn-lg btn-warning" href="/routes">Готовые маршуты</a></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="container marketing my-5">
+
+    <div class="row featurette py-3 " data-aos="fade-left">
+        <div class="col-md-7">
+            <h2 class="featurette-heading fw-normal lh-1">Добро пожаловать в Беларусь - объединяем культуры, строим
+                общее будущее!</span></h2>
+            <p class="lead">Беларусь, официально известная как Республика Беларусь, является страной в Восточной
+                Европе.</p>
+        </div>
+        <div class="col-md-5">
+            <img src="../static/img/photo1.jpg" width="100%" alt="">
+        </div>
+    </div>
+
+    <hr class="featurette-divider" data-aos="fade-up">
+
+    <div class="row featurette py-3 " data-aos="fade-right">
+        <div class="col-md-7 order-md-2">
+            <h2 class="featurette-heading fw-normal lh-1">В Беларуси каждый найдёт свой уголок счастья - приезжайте
+                и убедитесь!</span></h2>
+            <p class="lead">В Беларуси находится множество культурных и исторических достопримечательностей, включая
+                замки, музеи и памятники архитектуры.</p>
+        </div>
+        <div class="col-md-5 order-md-1">
+            <img src="../static/img/photo2.jpg" width="100%" alt="">
+        </div>
+    </div>
+
+    <hr class="featurette-divider" data-aos="fade-up">
+
+    <div class="row featurette  py-3" data-aos="fade-left">
+        <div class="col-md-7">
+            <h2 class="featurette-heading fw-normal lh-1">Беларусь - страна зелёных лесов и синих озёр, где дружба и
+                гостеприимство на первом месте!</span></h2>
+            <p class="lead">В Беларуси находятся одни из самых больших и древних лесов в Европе, включая Беловежскую
+                пущу, которая является объектом Всемирного наследия ЮНЕСКО.</p>
+        </div>
+        <div class="col-md-5">
+            <img src="../static/img/photo3.jpg" width="100%" alt="">
+        </div>
+    </div>
+
+    <hr class="featurette-divider" data-aos="fade-up">
+</div>
+
+<section class="py-5 container" data-aos="fade-up">
+
+    <h1 class="fw-light">Виды туризма:</h1>
+    <div class="d-flex justify-content-between align-items-center text-center">
+        <a href="/articles?subject=Религиозный туризм" class="text-decoration-none mx-3"><i class="fa fa-fire"
+                aria-hidden="true"></i>Религиозный туризм</a>
+        <a href="/articles?subject=Медицинский туризм" class="text-decoration-none mx-3"><i class="fa fa-medkit"
+                aria-hidden="true"></i>Медицинский
+            туризм</a>
+        <a href="/articles?subject=Экологический туризм" class="text-decoration-none mx-3"><i class="fa fa-leaf"
+                aria-hidden="true"></i>Экологический
+            туризм</a>
+        <a href="/articles?subject=Охотничий туризм" class="text-decoration-none mx-3"><i class="fa fa-tree"
+                aria-hidden="true"></i>Охотничий туризм</a>
+        <a href="/articles?subject=Образовательный туризм" class="text-decoration-none mx-3"><i
+                class="fa fa-graduation-cap" aria-hidden="true"></i>Образовательный туризм</a>
+        <a href="/events" class="text-decoration-none mx-3"><i class="fa fa-asterisk"
+                aria-hidden="true"></i>Событийный
+            туризм</a>
+        <a href="/articles?subject=Деловой туризм" class="text-decoration-none mx-3"><i class="fa fa-bus"
+                aria-hidden="true"></i>Деловой туризм</a>
+        <a href="/articles?subject=Промышленный туризм" class="text-decoration-none mx-3"><i class="fa fa-building"
+                aria-hidden="true"></i>Промышленный
+            туризм</a>
+
+    </div>
+
+</section>
+
+
+<div class="album py-5 " data-aos="fade-down">
+    <div class="container">
+        <h2>События:</h2>
+        <div class="row row-cols-3 g-3">
+
+
+            {%for event in events_random%}
+            <div class="col">
+                <div class="card mb-3">
+                    <h3 class="card-header">{{event.title}}</h3>
+                    <div class="card-body">
+                        <h5 class="card-title">Место проведения: {{event.city}}</h5>
+                        <a href="/events/{{event.id}}" class="card-link">Читать далее</a>
+                    </div>
+                    <img src="../static/img/upload/{{event.image_name}}" alt="">
+                </div>
+            </div>
+            {%endfor%}
+          
+
+
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

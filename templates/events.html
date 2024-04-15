@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block title %}
+События
+{% endblock %}
+
+
+{% block main %}
+{{ ckeditor.load() }}
+<div class="container">
+  <div class="main">
+    <ol class="breadcrumb py-3">
+      <li class="breadcrumb-item"><a href="/">Главная</a></li>
+      <li class="breadcrumb-item active">События</li>
+    </ol>
+    <h1 class="py-3">События</h1>
+
+    {%if 'name' in session and active_user.root==1%}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Добавить
+    </button>
+    {%endif%}
+    
+    {% with messages = get_flashed_messages(True) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <p class="m-2 flash {{category}}">{{message}}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Добавить</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="post" enctype="multipart/form-data">
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Название</label>
+                <input type="text" id="disabledTextInput" class="form-control" name="title" placeholder="Название"
+                  required>
+              </div>
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Место проведения</label>
+                <input type="text" id="disabledTextInput" class="form-control" name="city"
+                  placeholder="Место проведения" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Дата</label>
+                <input type="date" id="disabledTextInput" class="form-control" name="date" placeholder="Дата" required>
+              </div>
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Изображение</label>
+                <input type="file" id="disabledTextInput" name="image" class="form-control" accept=".jpg,.jpeg,.png"
+                  required>
+              </div>
+              <div class="mb-3">
+                <h3>Описание</h3>
+                {{ ckeditor.create() }}
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary">Добавить</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="seach-date">
+      <form class="d-flex align-items-center">
+        <label for="date-event">Выберите дату</label>
+        <input type="date" placeholder="Выберите дату" class="mx-2" id="date-event" name="date" required>
+        <input type="text" placeholder="Выберите город" class="mx-2" id="date-event-city" name="city" required>
+        <button type="submit" class="btn btn-primary btn-sm">Показать события</button>
+        <a href="/events" class="btn btn-primary btn-sm mx-3">Показать все</a>
+      </form>
+    </div>
+
+    <div class="row py-5" data-masonry="{&quot;percentPosition&quot;: true }"
+      style="position: relative; height: 774px;">
+
+      {%if events%}
+      {%for event in events%}
+      <div class="col-sm-6 col-lg-4 mb-4" style="position: absolute; left: 66.6633%; top: 0px;">
+        <div class="card">
+          <img src="../static/img/upload/{{event.image_name}}" alt="">
+          <div class="card-body">
+            <h5 class="card-title">{{event.title}}</h5>
+            <p class="card-text ">Место проведения: {{event.city}}</p>
+            <div class="d-flex justify-content-between">
+              <a href="/events/{{event.id}}" class="card-link">Читать далее</a>
+              <p class="card-text"><small class="text-body-secondary"> {{event.date.strftime('%d.%m.%Y')}} </small></p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      {%endfor%}
+      {%else%}
+      <h2>Нет записей!</h2>
+      {%endif%}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block title %}
+Маршруты
+{% endblock %}
+
+
+{% block main %}
+{{ ckeditor.load() }}
+<div class="container">
+  <div class="main">
+    <ol class="breadcrumb py-3">
+      <li class="breadcrumb-item"><a href="/">Главная</a></li>
+      <li class="breadcrumb-item active">Маршруты</li>
+    </ol>
+    <h1 class="py-3">Маршруты</h1>
+
+
+    {%if 'name' in session and active_user.root==1%}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Добавить
+    </button>
+    {%endif%}
+
+
+    {% with messages = get_flashed_messages(True) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <p class="m-2 flash {{category}}">{{message}}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Добавить</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="post" enctype="multipart/form-data">
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Название</label>
+                <input type="text" id="disabledTextInput" class="form-control" name="title" placeholder="Название"
+                  required>
+              </div>
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Откуда</label>
+                <input type="text" id="disabledTextInput" class="form-control" name="point_a" placeholder="Откуда"
+                  required>
+              </div>
+
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Куда</label>
+                <input type="text" id="disabledTextInput" class="form-control" name="point_b" placeholder="Куда"
+                  required>
+              </div>
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Изображение</label>
+                <input type="file" id="disabledTextInput" name="image" class="form-control" accept=".jpg,.jpeg,.png"
+                  required>
+              </div>
+              <div class="mb-3">
+                <h3>Описание</h3>
+                {{ ckeditor.create() }}
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary">Добавить</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="seach-routes">
+      <form method="get" class="d-flex align-items-center">
+        <input type="text" placeholder="Откуда" name="point_a" required>
+        <input type="text" placeholder="Куда" name="point_b" class="mx-2" required>
+        <button type="submit" class="btn btn-primary btn-sm">Показать маршуты</button>
+      </form>
+    </div>
+
+    <div class="row row-cols-lg-1 align-items-stretch  py-5">
+
+      {%if routes%}
+      {%for route in routes%}
+      <div class="col " data-aos="flip-up">
+        <div class="card shadow-sm m-3">
+          <div class="row">
+            <div class="col d-flex align-items-center justify-content-center flex-column text-center">
+              <h3>{{route.title}}</h3>
+              <a href="/routes/{{route.id}}" class="btn btn-primary">Подробнее</a>
+            </div>
+            <div class="col">
+              <img src="../static/img/upload/{{route.image_name}}" class="img-fluid" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+      {%endfor%}
+      {%else%}
+      <h2>Нет записей!</h2>
+      {%endif%}
+    </div>
+  </div>
+</div>
+{% endblock %}

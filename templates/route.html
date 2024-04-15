@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block title %}
+{{route.title}}
+{% endblock %}
+
+
+{% block main %}
+{{ ckeditor.load() }}
+<div class="container">
+  <div class="main">
+    <ol class="breadcrumb py-3">
+      <li class="breadcrumb-item"><a href="/">Главная</a></li>
+      <li class="breadcrumb-item"><a href="/routes">Маршруты</a> </li>
+      <li class="breadcrumb-item active">{{route.title}}</li>
+    </ol>
+
+    {%if 'name' in session and active_user.root==1%}
+    <button type="button" class="btn btn-warning mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Изменить
+    </button>
+    <a href="/delete-route/{{route.id}}" class="btn btn-danger mb-3">Удалить</a>
+    {%endif%}
+
+
+
+    {% with messages = get_flashed_messages(True) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <p class="m-2 flash {{category}}">{{message}}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- Modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Изменить</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="post" enctype="multipart/form-data">
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Название</label>
+                <input type="text" id="disabledTextInput" class="form-control" name="title" placeholder="Название"
+                  required value="{{route.title}}">
+              </div>
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Откуда</label>
+                <input type="text" id="disabledTextInput" class="form-control" name="point_a" placeholder="Откуда"
+                  required value="{{route.point_a}}">
+              </div>
+
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Куда</label>
+                <input type="text" id="disabledTextInput" class="form-control" name="point_b" placeholder="Куда"
+                  required value="{{route.point_b}}">
+              </div>
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Изображение</label>
+                <input type="file" id="disabledTextInput" name="image" class="form-control" accept=".jpg,.jpeg,.png">
+              </div>
+              <div class="mb-3">
+                <h3>Описание</h3>
+                {{ ckeditor.create(value=route.text) }}
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            <button type="submit" class="btn btn-primary">Изменить</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="row py-5">
+      <div class="col-lg-12">
+        <h1>{{route.title}}</h1>
+        <h2>Откуда: {{route.point_a}}</h2>
+        <h2>Куда: {{route.point_b}}</h2>
+        <h2>Описание:</h2>
+        {% autoescape false %}
+        {{route.text}}
+        {% endautoescape %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
