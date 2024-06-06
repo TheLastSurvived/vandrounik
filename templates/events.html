@@ -74,12 +74,17 @@
     </div>
 
     <div class="seach-date">
-      <form class="d-flex align-items-center">
+      <form class="d-flex align-items-center" >
         <label for="date-event">Выберите дату</label>
         <input type="date" placeholder="Выберите дату" class="mx-2" id="date-event" name="date" required>
-        <input type="text" placeholder="Выберите город" class="mx-2" id="date-event-city" name="city" required>
-        <button type="submit" class="btn btn-primary btn-sm">Показать события</button>
-        <a href="/events" class="btn btn-primary btn-sm mx-3">Показать все</a>
+       
+        <select class="form-select w-50" name="city">
+          {%for city in cityes%}
+          <option value="{{city}}">{{city[0]}}</option>
+          {%endfor%}
+        </select>
+        <button type="submit" class="btn btn-primary btn-sm mx-3">Показать события</button>
+        <a href="/events" class="btn btn-primary btn-sm ">Показать все</a>
       </form>
     </div>
 

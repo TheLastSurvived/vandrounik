@@ -96,6 +96,39 @@
           {% autoescape false %}
           {{article.text}}
           {% endautoescape %}
+          <div class="my-3">
+            <h2>Добавить отзыв</h2>
+            <form action="{{ url_for('add_comment', id_article=article.id) }}" method="post">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Ваше имя</label>
+                <input type="text" class="form-control" id="exampleFormControlInput1" name="name" required>             
+              </div>
+              <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Ваш отзыв</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" name="text" rows="5" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Добавить</button>
+            </form>
+            <hr>
+            <div>
+              <h2>Отзывы</h2>
+
+              {%if comments%}
+
+              {%for comment in comments%}
+              <div class="border rounded p-3">
+                <p>{{comment.text}}</p>
+                <small>{{comment.date.strftime('%d.%m.%Y %H:%M')}}</small>
+                <p class="text-end">От {{comment.name}}</p>
+              </div>
+              {%endfor%}
+
+              {%else%}
+                <p class="text-center">Отзывов нет!</p>
+              {%endif%}
+            </div>
+          </div>
+          
         </article>
       </div>
 

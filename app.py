@@ -33,6 +33,17 @@ class Articles(db.Model):
         return 'Articles %r' % self.id 
 
 
+class Comments(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(100))
+    text = db.Column(db.Text)
+    date = db.Column(db.DateTime, default=datetime.now)
+    id_article = db.Column(db.Integer, db.ForeignKey('articles.id'))
+
+    def __repr__(self):
+        return 'Comments %r' % self.id 
+
+
 class Routes(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     title = db.Column(db.String(100))
@@ -182,6 +193,7 @@ def articles():
 
 @app.route('/articles/<int:id>', methods=['GET', 'POST'])
 def article(id):
+    comments = Comments.query.filter_by(id_article=id).all()
     article = Articles.query.get(id)
     articles_random = Articles.query.filter(Articles.id!=article.id).order_by(func.random()).limit(3).all()
 
@@ -199,7 +211,7 @@ def article(id):
         flash("Запись обновлена!", category="ok")
         return redirect(url_for("article", id=article.id))
 
-    return render_template("article.html",article=article,articles_random=articles_random)
+    return render_template("article.html",article=article,articles_random=articles_random,comments=comments)
 
 
 @app.route('/delete-article/<int:id>')
@@ -411,6 +423,18 @@ def profile():
     return render_template("profile.html",events=events_list)
 
 
+@app.route('/add_comment/<int:id_article>', methods=['GET', 'POST'])
+def add_comment(id_article):
+    if request.method == 'POST':
+        name = request.form.get('name')
+        text = request.form.get('text')
+        comment = Comments(name=name, text=text, id_article=id_article)
+        db.session.add(comment)
+        db.session.commit()
+        flash("Отзыв добавлен!", category="ok")
+    return redirect(url_for("article", id=id_article))
+
+
 @app.route('/logout')
 def logout():
     session.pop('name', None)
@@ -424,6 +448,12 @@ def inject_user():
             return Users.query.filter_by(email=session['name']).first()
     return dict(active_user=get_user_name())
 
+
+@app.context_processor
+def inject_user():
+    return dict(
+    cityes=db.session.query(Events.city).distinct().all(),
+    )
 
 @app.errorhandler(404)
 def page_not_found(e):
