@@ -58,8 +58,13 @@
                   required>
               </div>
               <div class="mb-3">
-                <label for="disabledTextInput" class="form-label">Изображение</label>
+                <label for="disabledTextInput" class="form-label">Изображение 1</label>
                 <input type="file" id="disabledTextInput" name="image" class="form-control" accept=".jpg,.jpeg,.png"
+                  required>
+              </div>
+              <div class="mb-3">
+                <label for="disabledTextInput" class="form-label">Изображение 2</label>
+                <input type="file" id="disabledTextInput" name="image2" class="form-control" accept=".jpg,.jpeg,.png"
                   required>
               </div>
               <div class="mb-3">
@@ -89,14 +94,41 @@
       {%if routes%}
       {%for route in routes%}
       <div class="col " data-aos="flip-up">
-        <div class="card shadow-sm m-3">
+        <div class=" m-3">
           <div class="row">
-            <div class="col d-flex align-items-center justify-content-center flex-column text-center">
-              <h3>{{route.title}}</h3>
-              <a href="/routes/{{route.id}}" class="btn btn-primary">Подробнее</a>
-            </div>
-            <div class="col">
-              <img src="../static/img/upload/{{route.image_name}}" class="img-fluid" alt="">
+
+            <div class="col-lg-10 mx-auto">
+              <div id="myCarousel{{route.id}}" class="carousel slide mb-6"  bis_skin_checked="1">
+                <div class="carousel-inner" bis_skin_checked="1">
+                  <div class="carousel-item active" bis_skin_checked="1">
+                    <img src="../static/img/upload/{{route.image_name}}" class="d-block w-100" alt="...">                    <div class="container" bis_skin_checked="1">
+                      <div class="carousel-caption text-start bg-primary p-5 rounded" bis_skin_checked="1">
+                        <h1>{{route.title}}</h1>
+                        <a href="/routes/{{route.id}}" class="btn btn-light">Подробнее</a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="carousel-item" bis_skin_checked="1">
+                    <img src="../static/img/upload/{{route.image_name2}}" class="d-block w-100" alt="...">                    <div class="container" bis_skin_checked="1">
+                      <div class="carousel-caption text-start bg-primary p-5 rounded" bis_skin_checked="1">
+                        <h1>{{route.title}}</h1>
+                        <a href="/routes/{{route.id}}" class="btn btn-light">Подробнее</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel{{route.id}}" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">пред.</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel{{route.id}}" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">след.</span>
+                </button>
+              </div>
+
+
             </div>
           </div>
         </div>

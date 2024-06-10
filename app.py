@@ -52,6 +52,7 @@ class Routes(db.Model):
     point_a = db.Column(db.String(100))
     point_b = db.Column(db.String(100))
     image_name = db.Column(db.String(100))
+    image_name2 = db.Column(db.String(100))
 
     def __repr__(self):
         return 'Routes %r' % self.id 
@@ -240,7 +241,12 @@ def routes():
         filename = secure_filename(image.filename)
         pic_name = str(uuid.uuid4()) + "_" + filename
         image.save("static/img/upload/" + pic_name)
-        routes = Routes(title=title,text=text,point_a=point_a,point_b=point_b,image_name=pic_name)
+        
+        image2 = request.files['image']
+        filename2 = secure_filename(image2.filename)
+        pic_name2 = str(uuid.uuid4()) + "_" + filename2
+        image2.save("static/img/upload/" + pic_name2)
+        routes = Routes(title=title,text=text,point_a=point_a,point_b=point_b,image_name=pic_name,image_name2=pic_name2)
         db.session.add(routes)
         db.session.commit()
         flash("Запись добавлена!", category="ok")
@@ -272,11 +278,17 @@ def route(id):
         route.point_a = request.form.get('point_a')
         route.point_b = request.form.get('point_b')
         image = request.files['image']
+        image2 = request.files['image2']
         if image:
             filename = secure_filename(image.filename)
             pic_name = str(uuid.uuid4()) + "_" + filename
             image.save("static/img/upload/" + pic_name)
             route.image_name = pic_name
+        if image2:
+            filename2 = secure_filename(image2.filename)
+            pic_name2 = str(uuid.uuid4()) + "_" + filename2
+            image2.save("static/img/upload/" + pic_name2)
+            route.image_name2 = pic_name2
         db.session.commit()
         flash("Запись обновлена!", category="ok")
         return redirect(url_for("route", id=route.id))
