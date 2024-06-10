@@ -96,22 +96,26 @@
           {% autoescape false %}
           {{article.text}}
           {% endautoescape %}
+
+          <h3>Лайки: {{article.likes}}</h3>
+          <a href="/add_likes/{{article.id}}" class="btn btn-primary">Мне нравится!</a>
+          <hr>
           <div class="my-3">
-            <h2>Добавить отзыв</h2>
+            <h2>Добавить комментарий:</h2>
             <form action="{{ url_for('add_comment', id_article=article.id) }}" method="post">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Ваше имя</label>
                 <input type="text" class="form-control" id="exampleFormControlInput1" name="name" required>             
               </div>
               <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">Ваш отзыв</label>
+                <label for="exampleFormControlTextarea1" class="form-label">Ваш комментарий:</label>
                 <textarea class="form-control" id="exampleFormControlTextarea1" name="text" rows="5" required></textarea>
               </div>
               <button type="submit" class="btn btn-primary">Добавить</button>
             </form>
             <hr>
             <div>
-              <h2>Отзывы</h2>
+              <h2>Комментарии:</h2>
 
               {%if comments%}
 
@@ -124,7 +128,7 @@
               {%endfor%}
 
               {%else%}
-                <p class="text-center">Отзывов нет!</p>
+                <p class="text-center">Комментариев нет!</p>
               {%endif%}
             </div>
           </div>

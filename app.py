@@ -28,6 +28,7 @@ class Articles(db.Model):
     text = db.Column(db.Text)
     image_name = db.Column(db.String(100))
     category = db.Column(db.String(100))
+    likes = db.Column(db.Integer, default=0)
 
     def __repr__(self):
         return 'Articles %r' % self.id 
@@ -164,6 +165,10 @@ def reg():
 @app.route('/articles', methods=['GET', 'POST'])
 def articles():
     articles = Articles.query.all()
+    comments_count = []
+    for el in articles:
+        comments_count.append(Comments.query.filter_by(id_article=el.id).count())   
+    print(comments_count)
     if request.method == 'POST':
         title = request.form.get('title')
         category = request.form.get('category')
@@ -184,11 +189,11 @@ def articles():
             category= category.capitalize()
             category = "%{}%".format(category)
             articles = Articles.query.filter(Articles.category.like(category)).all()
-            return render_template("articles.html",articles=articles)
+            return render_template("articles.html",articles=articles,comments_count=comments_count,zip=zip)
         else:
-             return render_template("articles.html",articles=articles)
+             return render_template("articles.html",articles=articles,comments_count=comments_count,zip=zip)
 
-    return render_template("articles.html",articles=articles)
+    return render_template("articles.html",articles=articles,comments_count=comments_count,zip=zip)
 
 
 @app.route('/articles/<int:id>', methods=['GET', 'POST'])
@@ -432,6 +437,15 @@ def add_comment(id_article):
         db.session.add(comment)
         db.session.commit()
         flash("Отзыв добавлен!", category="ok")
+    return redirect(url_for("article", id=id_article))
+
+
+@app.route('/add_likes/<int:id_article>', methods=['GET', 'POST'])
+def add_likes(id_article):
+    article = Articles.query.get(id_article)
+    article.likes += 1
+    db.session.commit()
+    flash("Вы поставили лайк!", category="ok")
     return redirect(url_for("article", id=id_article))
 
 
