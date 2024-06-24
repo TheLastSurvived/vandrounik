@@ -104,7 +104,7 @@
           {%if articles%}
           {%for article, comments in zip(articles,comments_count)%}
           <div class="col" data-aos="flip-up">
-            <div class="card shadow-sm">
+            <div class="card shadow-sm" style="background-color: #d4e6f9;">
               <img src="../static/img/upload/{{article.image_name}}" alt="">
               <div class="card-body">
                 <p class="card-text">{{article.title}}</p>

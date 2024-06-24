@@ -120,7 +120,7 @@
               {%if comments%}
 
               {%for comment in comments%}
-              <div class="border rounded p-3">
+              <div class="border border-primary rounded p-3 my-4">
                 <p>{{comment.text}}</p>
                 <small>{{comment.date.strftime('%d.%m.%Y %H:%M')}}</small>
                 <p class="text-end">От {{comment.name}}</p>
